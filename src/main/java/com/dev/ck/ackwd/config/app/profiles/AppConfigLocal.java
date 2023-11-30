@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Local
 @Slf4j
 public class AppConfigLocal {
-	@Value("${maria.datasource.classname}") String driver;
+	@Value("${common.jdbc.classname}") String driver;
 	
 	public AppConfigLocal() {
 		log.info("App local 프로필이 적용 되었습니다. driver:{}", driver);

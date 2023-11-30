@@ -4,11 +4,15 @@ import java.util.Locale;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.dev.ck.ackwd.config.app.MybatisConfig;
+import com.dev.ck.ackwd.config.app.profiles.AppConfigCommon;
 import com.dev.ck.ackwd.config.app.profiles.AppConfigLocal;
 import com.dev.ck.ackwd.config.core.config.CommonMessageConfigurer;
 import com.google.gson.Gson;
@@ -16,7 +20,10 @@ import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Import({AppConfigLocal.class, MybatisConfig.class})
+@Import({
+	AppConfigCommon.class, 
+	AppConfigLocal.class, MybatisConfig.class
+})
 @ComponentScan(
 	basePackages = { 
 		"com.dev.ck"
@@ -31,7 +38,10 @@ import lombok.extern.slf4j.Slf4j;
 	sqlSessionFactoryRef = "commonMybatisSessionFactory",
 	sqlSessionTemplateRef = "commonSqlSessionTemplate"
 )
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class TestAppConfig implements CommonMessageConfigurer{
+	@Autowired ConfigurableEnvironment env;
+	
 	@Override
 	public int messageCacheSeconds() {
 		// TODO Auto-generated method stub
