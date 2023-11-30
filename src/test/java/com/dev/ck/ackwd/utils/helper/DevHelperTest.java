@@ -26,7 +26,6 @@ public class DevHelperTest extends TestApp{
 	}
 
 	@Test
-	@Ignore
 	public void DB테이블정보로_CRUD_SQL출력() {
 		String targetTable = "SM_STD_CD";
 		help.printAllSql(targetTable);
