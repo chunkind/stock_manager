@@ -30,4 +30,4 @@ META-INF/
 # Ignore Gradle build output directory
 build
 
-.config.properties
+config.properties
