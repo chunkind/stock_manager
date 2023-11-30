@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+<!--
+ log4j는 로그를 출력하는 기술이다. 
+
+
+ * Log4j 구조
+  요소  - 설명 
+ Logger - 출력할 메시지를 Appender에 전달한다.
+ Appender - 전달된 로그를 어디에 출력할 지 결정한다. (콘솔 출력, 파일 기록, DB 저장 등)
+ Layout - 로그를 어떤 형식으로 출력할 지 결정한다.
+ 
+
+ * Log4j 로그레벨
+  로그레벨  - 설명
+ FATAL - 아주 심각한 에러가 발생한 상태를 나타낸다. 
+ ERROR - 어떠한 요청을 처리하는 중 문제가 발생한 상태를 나타낸다. 
+ WARN -  프로그램의 실행에는 문제가 없지만, 향후 시스템 에러의 원인이 될수 있는 경고성 메시  지를 나타낸다.
+ INFO - 어떠한 상태변경과 같은 정보성 메시지를 나타낸다.
+ DEBUG - 개발시 디버그 용도로 사용하는 메시지를 나타낸다. 
+ TRACE - 디버그 레벨이 너무 광범위한것을 해결하기 위해서 좀 더 상세한 이벤트를 나타낸다.
+
+
+ * Log4j Datepattern
+   형식                            		설명 
+ '.'yyyy-MM   			매달 시작 일에 로그 파일 변경 
+ '.'yyyy-ww  			매주 시작 일에 로그 파일 변경 
+ '.'yyyy-MM-dd  		매일 자정에 로그 파일 변경 
+ '.'yyyy-MM-dd-a  		자정과 정오에 로그 파일 변경 
+ '.'yyyy-MM-dd-HH  		매 시간마다 로그 파일 변경 
+ '.'yyyy-MM-dd-HH-mm  	매 분마다 로그 파일 변경 
+
+
+ * Log4j Layout
+  형식 - 설명 
+ %P - debug, info, warn, error, fatal 등 priority 출력
+ %m - 로그 내용 출력 
+ %d - 발생 시간 출력
+ %t - 발생 쓰레드의 이름 출력
+ %n - 개행 문자 출력 
+ %c - 패키지 출력 / {숫자} 를 이용하여 단계별 출력, ex) %x{5} 
+ %C - 클래스 명 출력 / {숫자} 를 이용하여 단계별 출력, ex) %x{5}   
+ %F - 프로그램 파일 명 출력 
+ %I - 로깅이 발생한 caller 의 정보 출력 
+ %L - 로깅이 발생한 caller 의 라인 수 출력 
+ %M - 로깅이 발생한 method 명 출력 
+ %r - 애플리케이션 시작 이후 로깅이 발생한 시점의 시간 출력(millisecond)
+ %x - NDC 에 저장된 내용 출력 
+ %X - MDC 에 저장된 내용 출력
+
+-->
+
+
+
+    <!-- 콘솔 로그 -->
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <!-- 패턴 레이아웃 설정.. -->
+         <layout class="org.apache.log4j.PatternLayout">
+              <param name="ConversionPattern" value="%d %p [%c{5}] %m [%X{userId}]%n" />
+         </layout>   
+    </appender>
+     
+    <!-- 날짜별 로그 파일 생성 -->
+    <!-- <appender name="rollingFile" class="org.apache.log4j.DailyRollingFileAppender">
+        날짜별로  로그를 남김. 파일명.확장자.DatePattern으로 정의 함  
+        <param name="File" value="/LOG/all.log"/>
+        <param name="Append" value="true"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/> 
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p [%C{10}] %m [%X{userId}]%n" />
+        </layout>   
+    </appender> -->
+     
+    <!-- 날짜별 로그 파일 생성 -->
+    <!-- <appender name="springFile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/LOG/spring.log"/>
+        <param name="Append" value="true"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/> 
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p [%C{10}] %m [%X{userId}]%n" />
+        </layout>   
+    </appender> -->
+     
+    <!-- 날짜별 로그 파일 생성(에러만) -->
+    <!-- <appender name="errFile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="Threshold" value="ERROR"/>
+        <param name="File" value="/LOG/error.log"/>
+        <param name="Append" value="true"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/> 
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %5p [%C{1}] %m [%X{userId}]%n" />
+        </layout>   
+    </appender> -->
+    
+    <!-- 특정 크기마다 백업하며 로그-->
+    <!-- <appender name="rolling" class="org.apache.log4j.RollingFileAppender">        
+        <param name="file" value="I:/log/log.log"/>
+        <param name="Append" value="true"/>
+        <param name="MaxFileSize" value="1MB"/>
+        <param name="MaxBackupIndex" value="1"/>  
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%t> [%d{yyyy-MM-dd HH:mm:ss}] [%c{1}] [%L] [%p] %m %n"/>
+        </layout>
+    </appender> --> 
+ 
+    <!-- 특정 패키지 출력 설정 -->
+    <logger name="org.apache.ibatis">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="org.springframework">
+        <level value="DEBUG"/>
+        <!-- <appender-ref ref="springFile" /> -->
+    </logger>
+    <logger name="java.sql">
+        <level value="DEBUG"/>
+    </logger>
+    
+    <!-- 클레스 별로 로그 정보를 제어할수 있다 -->
+    <!-- <category name="example" additivity="false">
+        <level value="DEBUG"/>        
+        <appender-ref ref="console" />
+        <appender-ref ref="rollingFile" />
+    </category> -->
+ 
+    <!-- 기본적으로 출력 될 로그 출력, appender-ref 를 통해 해당 appender 참조 -->
+    <root>
+        <level value="DEBUG" />
+        <appender-ref ref="console" />
+        <!-- <appender-ref ref="errFile"/>
+        <appender-ref ref="rollingFile"/> -->
+    </root> 
+    
+</log4j:configuration>

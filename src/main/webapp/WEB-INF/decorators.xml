@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<decorators defaultdir="/WEB-INF/jsp">
+
+	<!-- 메인 템플릿 -->
+	<decorator name="default" title="메인" page="partners/mainTemplate.jsp">
+		<pattern>/main.do</pattern>
+	</decorator>
+	
+	<decorator name="sample" page="partners/sampleTemplate.jsp">
+		<pattern>/sample/*</pattern>
+	</decorator>
+	
+	<decorator name="sample2" page="partners/sampleTemplate2.jsp">
+		<pattern>/sample/sampleRealGrid.do</pattern>
+	</decorator>
+
+	<!-- 기본 템플릿 -->
+	<decorator name="tab" page="partners/tabTemplate.jsp">
+		<pattern>/order/*</pattern>
+		<pattern>/approval/apr0203Edit.do</pattern><!-- (PO)승인관리 > 상품승인관리 > 상세보기 -->
+	</decorator>
+	 
+	 
+	<!-- 팝업 템플릿 -->
+	<decorator name="popup" title="팝업" page="partners/popupTemplate.jsp">
+		<pattern>/sample/sampleTree.do</pattern>
+		<pattern>/common/*</pattern>
+		<pattern>/homecare/hcr0303Edit.do</pattern>
+		<pattern>/rentconsulting/rnt0202Pop.do</pattern><!-- 상담상태 이력 -->
+	</decorator>
+
+	<!-- 로그인 템플릿 -->
+	<decorator name="login" title="로그인" page="partners/loginTemplate.jsp">
+		<pattern>/login/*</pattern>
+	</decorator>
+
+	<!-- 파트너사 include -->
+	<decorator name="partnersHeaderTemplate"  page="partners/include/headerTemplate.jsp"/>
+	<decorator name="partnersLeftTemplate"	page="partners/include/leftTemplate.jsp"/>
+	<decorator name="partnersFooterTemplate"  page="partners/include/footerTemplate.jsp"/>
+	<decorator name="partnersLoadingTemplate" page="partners/include/loading.jsp"/>
+	<!-- 웹세이퍼 템플릿 -->
+	<decorator name="websaferTemplate"		  page="partners/include/websaferTemplate.jsp"/>
+
+	<!-- 입점 템플릿 공통으로 전환 -->
+	<decorator name="proposeTemplate" title="입점" page="propose/defaultTemplate.jsp">
+		<pattern>/propose/ctr0801View.do</pattern>
+		<pattern>/product/prd9003List.do</pattern>
+	</decorator>
+
+	<!-- 입점 include -->
+	<decorator name="proposeHeaderTemplate" page="propose/include/headerTemplate.jsp"/>
+	<decorator name="proposeFooterTemplate" page="propose/include/footerTemplate.jsp"/>
+
+	<!-- 입점 팝업 템플릿 -->
+	<decorator name="proposePopup" title="입점팝업" page="propose/popupTemplate.jsp">
+		<pattern>/propose/ctr0302Pop.do</pattern>
+		<pattern>/propose/ctr0503List.do</pattern><!-- 제안신청 > 제안품목군 선택 팝업 -->
+		<pattern>/propose/ctr0505View.do</pattern><!-- 제안신청 > 제안품목군 선택 팝업 -->
+		<pattern>/propose/ctr0508Reg.do</pattern><!-- 상품본부 > 입점상담 > 계약진행관리 팝업 -->
+		<pattern>/propose/ctr0509List.do</pattern><!-- 제안 품목군 선택 팝업 -->
+		<pattern>/propose/ctr0610Pop.do</pattern>
+		<pattern>/propose/ctr0804View.do</pattern><!-- 서비스 > 제안결과 확인 > 제안결과 상세 -->
+		<pattern>/contract/ctr1108View.do</pattern>
+	</decorator>
+
+	<!-- 모바일 템플릿 -->
+	<decorator name="mobile" title="모바일" page="mobile/defaultTemplate.jsp">
+		<pattern>/mobile/*</pattern>
+	</decorator>
+	
+	<!-- 모바일 로그인 템플릿 -->
+	<decorator name="mobileLogin" title="로그인" page="mobile/loginTemplate.jsp">
+		<pattern>/mobile/mLgn0100.do</pattern>
+		<pattern>/mobile/mLgn0101.do</pattern>
+	</decorator>
+
+	<!-- 모바일 NO 템플릿 -->
+	<decorator name="mobileNoTemplate" title="로그인" page="mobile/noTemplate.jsp">
+		<pattern>/mobile/index.do</pattern>
+	</decorator>
+	
+	<!-- 모바일 공통 팝업 템플릿 -->
+	<decorator name="mobilePopup" title="팝업" page="mobile/popupTemplate.jsp">
+		<pattern>/common/mobile/*</pattern>
+	</decorator>
+	
+	<!-- 모바일 include -->
+	<decorator name="mobileHeaderTemplate" page="mobile/include/headerTemplate.jsp"/>
+	<decorator name="mobileNavigationTemplate" page="mobile/include/navigationTemplate.jsp"/>
+	<decorator name="mobileLoadingTemplate" page="mobile/include/loading.jsp"/>
+	<decorator name="mobileFooterTemplate" page="mobile/include/footerTemplate.jsp"/>
+
+	<!-- NO 템플릿 -->
+	<decorator name="noTemplate" title="입점" page="propose/noTemplate.jsp">
+		<pattern>/propose/ctr0100Intro.do</pattern>
+		<pattern>/login/loginCheck.do</pattern>
+		<pattern>/index.do</pattern>
+	</decorator>
+	<decorator name="noTemplate" title="이미지" page="propose/noTemplate.jsp">
+		<pattern>/common/comImageViewPop.do</pattern>
+	</decorator>
+	
+	<!-- 오즈리포트 템플릿 -->
+	<decorator name="oz" title="오즈리포트" page="oz/defaultTemplate.jsp">
+		<pattern>/oz/ozViewer.do</pattern>
+	</decorator>
+	
+	<!-- sitemesh를 사용하지 않을 패턴을 지정 -->
+	<excludes>
+		<pattern>/mobile/appVersion.do</pattern>
+	</excludes>
+</decorators>

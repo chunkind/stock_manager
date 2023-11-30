@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dev.ck.ackwd.common.service.CommonMapper">
+	<select id="selectCommonCodeList" resultType="CommonDto">
+	/* admMenuDao.selectMenuList - 메뉴 리스트 */
+	<![CDATA[
+		SELECT A.MG_MENU_SEQ AS mgMenuSeq /*시퀀스*/
+			 , A.MENU_NAME AS menuName /*메뉴명*/
+			 , A.MPG_URL AS mpgUrl /*매핑주소*/
+			 , A.DEPTH AS depth /*뎁스*/
+			 , A.MTR_SEQ AS mtrSeq /*부모시퀀스*/
+			 , DATE_FORMAT(A.REG_DATE, '%Y. %m. %d.') AS regDate /*등록 일자*/
+			 , A.REG_USER_ID AS regUserId /*등록 회원 아이디*/
+			 , DATE_FORMAT(A.UPD_DATE, '%Y. %m. %d.') AS updDate /*수정 일자*/
+			 , A.UPD_USER_ID AS updUserId /*수정 회원 아이디*/
+			 , A.USE_YN AS useYn /*사용 유무*/
+			 , A.USER_LV AS userLv /*-*/
+			 , IFNULL(A.MENU_INFO, '내용 없음.') AS menuInfo /*메뉴 정보*/
+			 , A.SUM_TITLE_IMG AS sumTitleImg /*대표썸네일이미지*/
+			 , A.DSPL_YN AS dsplYn /*전시 유무*/
+		  FROM MG_MENU A
+		 WHERE 1=1
+		   AND DSPL_YN = 'Y'
+		   AND USER_LV <= #{userLv}
+		 ORDER BY MTR_SEQ ASC
+	]]>
+	</select>
+	
+</mapper>

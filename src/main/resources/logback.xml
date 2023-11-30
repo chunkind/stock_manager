@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="3 seconds">
+	<contextName>stock_manager</contextName>
+		
+	<property name="ROOT_LOG_LEVEL" value="DEBUG"/>   
+	<property name="ROLLING_MAX" value="3"/>   
+	<property name="LOG_PATH" value="/data/webapps/archive/E-HIMART/logs"/>	
+	<property name="profile" value="unkown"/>
+	<property name="applicationName" value="HIMART"/>
+	<property name="componentName" value="UNKNOWN_COMPONENT"/>
+	
+	<if condition='"${spring.profiles.active}".contains("production")'>
+		<then>
+			<property name="ROOT_LOG_LEVEL" value="INFO"/>   
+			<property name="profile" value="production"/>
+			<property name="ROLLING_MAX" value="30"/>   
+		</then>
+	</if>
+	
+	<if condition='"${spring.profiles.active}".contains("bo")'>
+		<then>
+			<property name="applicationName" value="bo"/>
+		</then>
+	</if>
+	
+	<if condition='"${spring.profiles.active}".contains("front")'>
+		<then>
+			<property name="applicationName" value="front"/>
+		</then>
+	</if>
+	
+	<if condition='"${spring.profiles.active}".contains("frontmobile")'>
+		<then>
+			<property name="applicationName" value="frontmobile"/>
+		</then>
+	</if>
+	<if condition='"${spring.profiles.active}".contains("fronttablet")'>
+		<then>
+			<property name="applicationName" value="fronttablet"/>
+		</then>
+	</if>
+	
+	<property name="componentName" value="${applicationName}_secure"/>
+	
+	
+	<property name="LOGFILE_PREFIX" value="${LOG_PATH}/${applicationName}/${componentName}"/>
+	
+	<property name="logginPattern" value="%X{txId} %d{yy/MM/dd HH:mm:ss.SSS} %.-1level %X{clientIp} [%-40.40logger{40}:%-4.4line] %X{authId}:%-20X{programId} - %msg%n"/>
+		
+	<property name="batchName" value='${batchName}'/>   
+	
+	<if condition='"${spring.profiles.active}".contains("batch")'>
+		<then>
+			<property name="applicationName" value="batch"/>
+			<property name="componentName" value='batch_${batchName}'/>   
+			 <property name="logginPattern" value="%d{yy/MM/dd HH:mm:ss.SSS} %.-1level [%-40.40logger{40}:%-4.4line] - %msg%n"/>
+		</then>	
+	</if>
+		
+		
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<Pattern>%X{txId} %d{yy/MM/dd HH:mm:ss.SSS} %.-1level %X{clientIp} [%-40.40logger{40}:%-4.4line] %X{authId}:%-20X{programId} - %msg%n</Pattern>
+		</encoder>
+	</appender>
+		
+	<appender name="CONSOLE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="CONSOLE" />
+		<queueSize>1</queueSize> <!-- default 256 -->
+		<discardingThreshold>0</discardingThreshold> <!-- default 20, means drop lower event when has 20% capacity remaining -->
+		<includeCallerData>true</includeCallerData><!-- default false -->
+		<neverBlock>true</neverBlock><!-- default false, set to true to cause the 
+		Appender not block the application and just drop the messages -->
+	</appender>
+	
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGFILE_PREFIX}.log</file>
+		<encoder>
+			<charset>UTF-8</charset>
+			<Pattern>${logginPattern}</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOGFILE_PREFIX}.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>${ROLLING_MAX}</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<!-- AsyncAppender 추가 -->
+	<appender name="FILE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FILE" />
+		<queueSize>1</queueSize>
+		<discardingThreshold>0</discardingThreshold>
+		<includeCallerData>true</includeCallerData>
+		<neverBlock>false</neverBlock>
+	</appender>
+	
+	<appender name="AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGFILE_PREFIX}-audit.log</file>
+		<encoder>
+			<charset>UTF-8</charset>
+			<Pattern>${logginPattern}</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOGFILE_PREFIX}-audit-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>${ROLLING_MAX}</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<!-- AsyncAppender 추가 -->
+	<appender name="ASYNC_AUDIT" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="AUDIT" />
+		<queueSize>1</queueSize>
+		<discardingThreshold>0</discardingThreshold>
+		<includeCallerData>false</includeCallerData>
+		<neverBlock>false</neverBlock>
+	</appender>
+	
+	<!--<appender name="SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGFILE_PREFIX}-sql.log</file>
+		<encoder>
+			<charset>UTF-8</charset>
+		  	<Pattern>${logginPattern}</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		  	<fileNamePattern>${LOGFILE_PREFIX}-sql-%d{yyyy-MM-dd}.log</fileNamePattern>
+		  	<maxHistory>${ROLLING_MAX}</maxHistory>
+		</rollingPolicy>
+		<filter class="nframework.util.HImartSqlFilter" />
+	</appender>-->
+
+	<!-- AsyncAppender 추가 -->
+	<appender name="ASYNC_SQL" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="SQL" />
+		<queueSize>1</queueSize>
+		<discardingThreshold>0</discardingThreshold>
+		<includeCallerData>false</includeCallerData>
+		<neverBlock>false</neverBlock>
+	</appender>
+	
+	<logger name="jdbc.sqlonly" level="WARN" />
+	<logger name="jdbc.resultset" level="WARN" />	
+	<logger name="jdbc.audit" level="WARN" />
+	<logger name="jdbc.sqltiming" level="WARN" />
+	<logger name="jdbc.connection" level="WARN" />	
+	<logger name="log4jdbc.debug" level="WARN" />
+	
+	<if condition='"${profile}".equals("unkown")'>
+		<then>
+			<logger name="org.springframework" level="DEBUG" />
+			<logger name="org.springframework.beans.factory" level="INFO" />
+			<logger name="org.springframework.core" level="INFO" />
+			<logger name="org.hibernate" level="INFO" />
+			<logger name="org.apache.commons.digester" level="INFO" />
+			<logger name="org.apache.cxf" level="INFO" />
+			<logger name="org.apache.cxf.transport.http.HTTPConduit" level="DEBUG" />
+			<logger name="org.apache.cxf.services" level="INFO" />
+			
+			<logger name="framework" level="DEBUG" />
+			<logger name="com.atomikos" level="WARN" />
+			<logger name="jdbc.sqltiming" level="DEBUG" />
+		</then>
+	</if>
+	
+	<logger name="org.noo.pagination" level="INFO" />
+	<logger name="org.apache.ibatis" level="INFO" />
+	<logger name="org.apache.commons" level="INFO" />
+	<logger name="net.sf.ehcache" level="INFO" />
+	<logger name="net.sf.ehcache.hibernate.EhCache" level="INFO" />	
+	<logger name="org.dbunit" level="INFO" />
+	<logger name="org.apache.http" level="INFO" />
+	
+	<logger name="org.springframework.jndi" level="INFO" />
+	<logger name="org.springframework.context.annotation.ClassPathBeanDefinitionScanner" level="INFO" />
+	
+	<logger name="org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader" level="INFO" />
+	<logger name="org.springframework.context.annotation.ConfigurationClassPostProcessor" level="INFO" />
+	<logger name="org.springframework.context.annotation.ConfigurationClassEnhancer" level="INFO" />
+	<logger name="org.springframework.orm.jpa.EntityManagerFactoryUtils" level="INFO" />
+	<logger name="org.springframework.orm.jpa.JpaTransactionManager" level="INFO" />
+	
+	<logger name="org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter" level="INFO" />
+	<logger name="org.springframework.web.context.support.StandardServletEnvironment" level="INFO" />
+	<logger name="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" level="INFO" />
+	<logger name="org.springframework.data.repository.config.RepositoryComponentProvider" level="INFO" />
+	<logger name="org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator" level="INFO" />
+	<logger name="org.springframework.jdbc.datasource" level="INFO" />
+	
+	
+	<logger name="org.springframework.web.servlet.view.JstlView" level="INFO" />
+	<logger name="org.mybatis.spring.SqlSessionUtils" level="INFO" />
+	<logger name="org.mybatis.spring" level="INFO" />
+	<logger name="org.mybatis" level="INFO" />
+	
+	<logger name="org.springframework.aop" level="INFO" />
+	<logger name="com.cspi.util.FileWatchDog" level="INFO" />
+	<logger name="lecs.util.web.session" level="INFO" />
+	
+	<logger name="nframework.web.cookiesession.CookieSerializer" level="INFO" />
+	<logger name="com.zaxxer.hikari.pool" level="INFO" />
+	
+	<logger name="org.apache.zookeeper" level="WARN" />
+	<logger name="net.spy.memcached" level="WARN" />
+	<logger name="com.himart.arcus" level="WARN" />
+	
+	<logger name="org.springframework.security" level="DEBUG" />
+	
+	<logger name="**.*Mapper" level="INFO" >
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ASYNC_SQL" />
+	</logger>	
+	
+	<logger name="audit" level="DEBUG" >
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ASYNC_AUDIT" />
+	</logger>
+	
+	<!-- 
+	<if condition='"${profile}".equals("unkown")'>
+		<then>
+			<root level="${ROOT_LOG_LEVEL}">
+				<appender-ref ref="CONSOLE" />
+		  	</root>
+		</then>
+	</if>
+	-->
+	<!-- 	 
+	<root level="${ROOT_LOG_LEVEL}">
+	<root level="DEBUG">
+	-->
+	<root level="${ROOT_LOG_LEVEL}">
+		<!-- AsyncAppender로 변경 -->
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE_ASYNC" />
+	</root>
+</configuration>

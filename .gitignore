@@ -1,0 +1,33 @@
+*~
+.DS_Store
+
+.metadata/
+Servers/
+classes/
+RemoteSystemsTempFiles/
+.recommenders/
+bin/
+build/
+.class
+rebel.xml
+.springBeans
+
+target/
+.settings/
+.project
+.classpath
+.bak
+*.bak
+
+
+META-INF/
+.idea/
+*.iml
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
+
+.config.properties
