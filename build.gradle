@@ -23,6 +23,7 @@ dependencies{
 	implementation 'org.springframework.security:spring-security-core:4.2.13.RELEASE'
 	
 	implementation 'com.navercorp.lucy:lucy-xss:1.6.3'
+	implementation 'com.auth0:java-jwt:4.4.0'
 	
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
 	

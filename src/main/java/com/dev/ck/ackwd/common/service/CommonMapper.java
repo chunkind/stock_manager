@@ -8,5 +8,9 @@ import com.dev.ck.ackwd.common.CommonDto;
 
 @Mapper
 public interface CommonMapper {
-	List<CommonDto> selectCommonCodeList(CommonDto params);
+	int insertSmStdCdDtoOne(CommonDto param);
+	int updateSmStdCdDtoOne(CommonDto param);
+	int deleteSmStdCdDtoOne(CommonDto param);
+	CommonDto selectSmStdCdDtoOne(CommonDto param);
+	List<CommonDto> selectSmStdCdDtoList(CommonDto param);
 }

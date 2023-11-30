@@ -1,29 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dev.ck.ackwd.common.service.CommonMapper">
-	<select id="selectCommonCodeList" resultType="CommonDto">
-	/* admMenuDao.selectMenuList - 메뉴 리스트 */
-	<![CDATA[
-		SELECT A.MG_MENU_SEQ AS mgMenuSeq /*시퀀스*/
-			 , A.MENU_NAME AS menuName /*메뉴명*/
-			 , A.MPG_URL AS mpgUrl /*매핑주소*/
-			 , A.DEPTH AS depth /*뎁스*/
-			 , A.MTR_SEQ AS mtrSeq /*부모시퀀스*/
-			 , DATE_FORMAT(A.REG_DATE, '%Y. %m. %d.') AS regDate /*등록 일자*/
-			 , A.REG_USER_ID AS regUserId /*등록 회원 아이디*/
-			 , DATE_FORMAT(A.UPD_DATE, '%Y. %m. %d.') AS updDate /*수정 일자*/
-			 , A.UPD_USER_ID AS updUserId /*수정 회원 아이디*/
-			 , A.USE_YN AS useYn /*사용 유무*/
-			 , A.USER_LV AS userLv /*-*/
-			 , IFNULL(A.MENU_INFO, '내용 없음.') AS menuInfo /*메뉴 정보*/
-			 , A.SUM_TITLE_IMG AS sumTitleImg /*대표썸네일이미지*/
-			 , A.DSPL_YN AS dsplYn /*전시 유무*/
-		  FROM MG_MENU A
-		 WHERE 1=1
-		   AND DSPL_YN = 'Y'
-		   AND USER_LV <= #{userLv}
-		 ORDER BY MTR_SEQ ASC
-	]]>
+	<insert id="insertSmStdCdDtoOne">
+	/* CommonMapper.insertSmStdCdDtoOne -  */
+	INSERT INTO SM_STD_CD
+	( GRP_CD /*그룹코드*/
+	, GRP_NM /*그룹코드*/
+	, CD /*코드*/
+	, CD_NM /*코드명*/
+	, CD_DESC /*코드설명*/
+	, SORT /*정렬*/
+	, DPLY_YN /*전시여부*/
+	, USE_YN /*사용여부*/
+	, SYS_REGR_ID /*시스템등록자아이디*/
+	, SYS_REG_DTIME /*시스템등록일시*/
+	, SYS_MODR_ID /*시스템수정자아이디*/
+	, SYS_MOD_DTIME /*시스템수정일시*/
+	) VALUES
+	( #{grpCd} /*그룹코드*/
+	, #{grpNm} /*그룹코드*/
+	, #{cd} /*코드*/
+	, #{cdNm} /*코드명*/
+	, #{cdDesc} /*코드설명*/
+	, #{sort} /*정렬*/
+	, #{dplyYn} /*전시여부*/
+	, #{useYn} /*사용여부*/
+	, #{sysRegrId} /*시스템등록자아이디*/
+	, now() /*시스템등록일시*/
+	, #{sysModrId} /*시스템수정자아이디*/
+	, now() /*시스템수정일시*/
+	)
+	</insert>
+	
+	<select id="selectSmStdCdDtoList" resultType="CommonDto">
+	/* .selectSmStdCdDtoList -  */
+	SELECT A.GRP_CD AS grpCd /*그룹코드*/
+		, A.GRP_NM AS grpNm /*그룹코드*/
+		, A.CD AS cd /*코드*/
+		, A.CD_NM AS cdNm /*코드명*/
+		, A.CD_DESC AS cdDesc /*코드설명*/
+		, A.SORT AS sort /*정렬*/
+		, A.DPLY_YN AS dplyYn /*전시여부*/
+		, A.USE_YN AS useYn /*사용여부*/
+		, A.SYS_REGR_ID AS sysRegrId /*시스템등록자아이디*/
+		, A.SYS_REG_DTIME AS sysRegDtime /*시스템등록일시*/
+		, A.SYS_MODR_ID AS sysModrId /*시스템수정자아이디*/
+		, A.SYS_MOD_DTIME AS sysModDtime /*시스템수정일시*/
+	  FROM SM_STD_CD A
 	</select>
 	
+	<select id="selectSmStdCdDtoOne" resultType="CommonDto">
+	/* .selectSmStdCdDtoOne -  */
+	SELECT A.GRP_CD AS grpCd /*그룹코드*/
+		, A.GRP_NM AS grpNm /*그룹코드*/
+		, A.CD AS cd /*코드*/
+		, A.CD_NM AS cdNm /*코드명*/
+		, A.CD_DESC AS cdDesc /*코드설명*/
+		, A.SORT AS sort /*정렬*/
+		, A.DPLY_YN AS dplyYn /*전시여부*/
+		, A.USE_YN AS useYn /*사용여부*/
+		, A.SYS_REGR_ID AS sysRegrId /*시스템등록자아이디*/
+		, A.SYS_REG_DTIME AS sysRegDtime /*시스템등록일시*/
+		, A.SYS_MODR_ID AS sysModrId /*시스템수정자아이디*/
+		, A.SYS_MOD_DTIME AS sysModDtime /*시스템수정일시*/
+	  FROM SM_STD_CD A
+	</select>
+	
+	<update id="updateSmStdCdDtoOne">
+	/* .updateSmStdCdDtoOne -  */
+	UPDATE SM_STD_CD
+	 SET GRP_CD = #{grpCd}  /*그룹코드*/
+	   , GRP_NM = #{grpNm}  /*그룹코드*/
+	   , CD = #{cd}  /*코드*/
+	   , CD_NM = #{cdNm}  /*코드명*/
+	   , CD_DESC = #{cdDesc}  /*코드설명*/
+	   , SORT = #{sort}  /*정렬*/
+	   , DPLY_YN = #{dplyYn}  /*전시여부*/
+	   , USE_YN = #{useYn}  /*사용여부*/
+	   , SYS_REGR_ID = #{sysRegrId}  /*시스템등록자아이디*/
+	   , SYS_REG_DTIME = #{sysRegDtime}  /*시스템등록일시*/
+	   , SYS_MODR_ID = #{sysModrId}  /*시스템수정자아이디*/
+	   , SYS_MOD_DTIME = #{sysModDtime}  /*시스템수정일시*/
+	 WHERE 1=1
+	   AND GRP_CD = #{grpCd}  /*그룹코드*/
+	   AND GRP_NM = #{grpNm}  /*그룹코드*/
+	   AND CD = #{cd}  /*코드*/
+	   AND CD_NM = #{cdNm}  /*코드명*/
+	   AND CD_DESC = #{cdDesc}  /*코드설명*/
+	   AND SORT = #{sort}  /*정렬*/
+	   AND DPLY_YN = #{dplyYn}  /*전시여부*/
+	   AND USE_YN = #{useYn}  /*사용여부*/
+	   AND SYS_REGR_ID = #{sysRegrId}  /*시스템등록자아이디*/
+	   AND SYS_REG_DTIME = #{sysRegDtime}  /*시스템등록일시*/
+	   AND SYS_MODR_ID = #{sysModrId}  /*시스템수정자아이디*/
+	   AND SYS_MOD_DTIME = #{sysModDtime}  /*시스템수정일시*/
+	</update>
+	
+	<delete id="deleteSmStdCdDtoOne">
+	/* .deleteSmStdCdDtoOne -  */
+	DELETE FROM SM_STD_CD
+	</delete>
 </mapper>

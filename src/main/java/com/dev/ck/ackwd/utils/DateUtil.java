@@ -6,28 +6,31 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class DateUtil {
 	public static final String DAFAULT_DATE_FORMAT = "yyyyMMdd";
 	public static final String DAFAULT_DATE_FORMAT2 = "yyyy-MM-dd";
 
-	public static void main(String[] args) {
-		DateUtil du = new DateUtil();
-		//오늘날짜
-		System.out.println(DateUtil.toDay(DAFAULT_DATE_FORMAT2));
-		System.out.println(du.toDay());
-//		System.out.println(du.toDayTypeDate());
-		//날짜 더하기
-//		System.out.println(du.addDate("20170101",DAFAULT_DATE_FORMAT, 0, 0, 0));
-//		System.out.println(du.addDate(1, 0, 0));
+	public static void testDate() {
+		// Input
+		Date date = new Date(System.currentTimeMillis());
+		//Date date2 = new Date(System.currentTimeMillis()-(1000*60*60*24*30));
 
-		//스트링 문자로된 날짜 비교
-		//정상값
-//		System.out.println(du.compareDate("20181201231201", "20181201231202", "yyyyMMddkkmmss"));
-		//자리수 불일치.
-//		System.out.println(du.compareDate("2018120123120", "20181201231202", "yyyyMMddkkmmss"));
+		// Conversion
+		SimpleDateFormat sdf;
+		
+		sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+		System.out.println(sdf.format(date));
+		
+		Calendar cal = Calendar.getInstance();
+		//cal.add(Calendar.DATE  , -7);
+		//cal.add(Calendar.MONTH , -1);
+		cal.add(Calendar.YEAR , -1);
+		String beforeMonth = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(cal.getTime());
+		System.out.println(beforeMonth);
 
-		System.out.println(du.toDayTypeDate());
 	}
 
 	public static String getLastDayOfMonth(){
