@@ -10,18 +10,13 @@ import java.util.Map.Entry;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.google.common.io.BaseEncoding;
-import com.oreilly.servlet.Base64Encoder;
-//import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-
 public class Util {
 
     private static final String DEFAULT_ENCODING = "UTF-8";
     private static final String HMAC_SHA512 = "HmacSHA512";
 
     public static String base64Encode(byte[] bytes) {
-//		String bytesEncoded = Base64.encode(bytes);
-    	String bytesEncoded = Base64Encoder.encode(bytes);
+		String bytesEncoded = Base64.encode(bytes);
 		return bytesEncoded;
     }
 
@@ -37,8 +32,7 @@ public class Util {
 	
 		    byte[] mac_data = sha512_HMAC.doFinal(data.getBytes());
 		    System.out.println("hex : " + bin2hex(mac_data));
-//		    result = Base64.encode(mac_data);
-		    result = Base64Encoder.encode(mac_data);
+		    result = Base64.encode(mac_data);
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
@@ -62,8 +56,7 @@ public class Util {
     }
 
     public static String asHex(byte[] bytes) {
-//    	return new String(Base64.encode(bytes));
-    	return new String(Base64Encoder.encode(bytes));
+    	return new String(Base64.encode(bytes));
     }
 
     public static String bin2hex(byte[] data) {
