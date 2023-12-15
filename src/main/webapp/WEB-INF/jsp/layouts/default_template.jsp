@@ -8,6 +8,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><tiles:insertAttribute name="title" /></title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link type="text/css" rel="stylesheet" href="/css/app.css?${version}">
+	<link type="text/css" rel="stylesheet" href="/css/carousel.css?${version}">
+	<link type="text/css" rel="stylesheet" href="/css/carousel.rtl.css?${version}">
 </head>
 <body>
 	<tiles:insertAttribute name="header" />

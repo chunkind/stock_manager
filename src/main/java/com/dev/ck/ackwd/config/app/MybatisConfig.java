@@ -30,6 +30,7 @@ import com.dev.ck.ackwd.config.persistent.mybatis.QuiteSqlSessionTemplate;
 import com.dev.ck.ackwd.config.persistent.mybatis.RefreshableSqlSessionFactoryBean;
 import com.dev.ck.ackwd.config.persistent.mybatis.YesNoBooleanTypeHandler;
 import com.dev.ck.ackwd.config.persistent.mybatis.audit.AuditableInterceptor;
+import com.dev.ck.ackwd.user.UserDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,7 +63,7 @@ public class MybatisConfig {
 		
 		factory.setMapperLocations(mapperLocations);
 		factory.setTypeAliases(new Class<?>[] {
-			CommonDto.class
+			CommonDto.class, UserDto.class
 		});
 		factory.setPlugins(interceptors());
 		factory.setTypedHandlerMap(typeHandlers());

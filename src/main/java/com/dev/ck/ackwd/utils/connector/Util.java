@@ -1,4 +1,4 @@
-package com.dev.ck.connect;
+package com.dev.ck.ackwd.utils.connector;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;

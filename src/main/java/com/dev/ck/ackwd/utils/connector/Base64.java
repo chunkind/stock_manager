@@ -1,4 +1,4 @@
-package com.dev.ck.connect;
+package com.dev.ck.ackwd.utils.connector;
 
 public class Base64 {
 	private static byte[] encodeData;

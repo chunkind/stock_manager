@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dev.ck.ackwd.user.service.UserMapper">
+	<insert id="insertUserOne">
+		/* userMapper.insertUserOne - 회원 등록. */
+		INSERT INTO USERS
+		( USER_ID
+		, USER_NAME
+		, USER_NIC
+		, USER_PW
+		, USER_GENDER
+		, USER_AGE
+		, USER_BIRTH
+		, USER_EMAIL
+		, USER_TELL
+		, USER_LV
+		, LAND_ADDR_BASE
+		, LAND_ADDR_DTL
+		, LAND_POST_NO
+		, LOAD_ADDR_BASE
+		, LOAD_ADDR_DTL
+		, LOAD_POST_NO
+		, PASS_WD_CHG_DTIME
+		, LOGIN_FAIL_CNT
+		, LOCK_YN
+		, TEMP_PASS_YN
+		, SNS_CON_TYPE
+		, SNS_CON_YN
+		, SNS_SEQ_ID
+		, CERT_KEY_VAL
+		, CERT_KEY_DTIME
+		, RCERT_KEY_VAL
+		, RCERT_KEY_DTIME
+		, CERT_TYPE
+		, EXPIRES_DTIME
+		, PROFILE_IMAGE
+		, POINT
+		, UPD_DATE
+		, REG_DATE
+		) VALUES
+		( #{userId}
+		, #{userName}
+		, #{userNic}
+		, #{userPw}
+		, #{userGender}
+		, #{userAge}
+		, #{userBirth}
+		, #{userEmail}
+		, #{userTell}
+		, #{userLv}
+		, #{landAddrBase}
+		, #{landAddrDtl}
+		, #{landPostNo}
+		, #{loadAddrBase}
+		, #{loadAddrDtl}
+		, #{loadPostNo}
+		, NOW()
+		, #{loginFailCnt}
+		, #{lockYn}
+		, #{tempPassYn}
+		, #{snsConType}
+		, #{snsConYn}
+		, #{snsSeqId}
+		, #{certKeyVal}
+		, #{certKeyDtime}
+		, #{rcertKeyVal}
+		, #{rcertKeyDtime}
+		, #{certType}
+		, #{expiresDtime}
+		, #{profileImage}
+		, #{point}
+		, NOW()
+		, NOW()
+		)
+	</insert>
+
+	<update id="updateUserOne">
+		/* UserDao.updateUserOne - 회원 수정. */
+		UPDATE USERS
+		   SET UPD_DATE = NOW()
+		   <if test="userId != null">
+			 , USER_ID = #{userId}
+		   </if>
+		   <if test="userName != null">
+			 , USER_NAME = #{userName}
+		   </if>
+		   <if test="userPw != null">
+			 , USER_PW = #{userPw}
+		   </if>
+		   <if test="userGender != null">
+			 , USER_GENDER = #{userGender}
+		   </if>
+		   <if test="userAge != null">
+			 , USER_AGE = #{userAge}
+		   </if>
+		   <if test="userEmail != null">
+			 , USER_EMAIL = #{userEmail}
+		   </if>
+		   <if test="userTell != null">
+			 , USER_TELL = #{userTell}
+		   </if>
+		   <if test="userLv != null">
+			 , USER_LV = #{userLv}
+		   </if>
+		 WHERE USERS_SEQ = #{usersSeq}
+	</update>
+	
+	<delete id="deleteUserOne">
+		/* userMapper.deleteUser - 회원 삭제 단건. */
+		DELETE FROM USERS WHERE USERS_SEQ = #{usersSeq}
+	</delete>
+	
+	<delete id="deleteUserList">
+		/* userMapper.deleteUserList - 회원 모두 삭제. */
+		DELETE FROM USERS
+	</delete>
+	
+	<select id="selectUserOne" resultType="userDto" >
+		/* userMapper.selectUserOne - 회원 상세. */
+		SELECT USERS_SEQ		as usersSeq
+			 , USER_ID			as userId
+			 , USER_NAME		as userName
+			 , USER_PW			as userPw
+			 , USER_GENDER		as userGender
+			 , USER_AGE			as userAge
+			 , USER_EMAIL		as userEmail
+			 , USER_TELL		as userTell
+			 , UPD_DATE			as updDate
+			 , REG_DATE			as regDate
+			 , USER_LV			as userLv
+		  FROM USERS
+		 WHERE 1=1
+		 <if test="userId != '' and userId != null">
+		 	AND USER_ID = #{userId}
+		 	AND USER_PW = #{userPw}
+		 </if>
+		 <if test="snsSeqId != '' and snsSeqId != null">
+		 	AND SNS_SEQ_ID = #{snsSeqId}
+		 </if>
+	</select>
+	
+	<select id="selectUserList" resultType="userDto" >
+		/* userMapper.selectUserList - 회원 리스트. */
+		SELECT USERS_SEQ		as usersSeq
+			 , USER_ID			as userId
+			 , USER_NAME		as userName
+			 , USER_PW			as userPw
+			 , USER_GENDER		as userGender
+			 , USER_AGE			as userAge
+			 , USER_EMAIL		as userEmail
+			 , USER_TELL		as userTell
+			 , UPD_DATE			as updDate
+			 , REG_DATE			as regDate
+			 , USER_LV			as userLv
+		  FROM USERS
+	</select>
+	
+	<select id="checkUserId" resultType="int">
+		/* userMapper.checkUserId - 아이디 유무 체크. */
+		SELECT COUNT(-1) FROM USERS 
+		WHERE 1=1
+		<if test="userId != null">
+			AND USER_ID = #{userId}
+		</if>
+		<if test="snsSeqId != null">
+			AND SNS_SEQ_ID = #{snsSeqId}
+		</if>
+	</select>
+	
+	<update id="updateToken">
+		/* userDao.updateToken - 토큰 업데이트 */
+		UPDATE USERS
+		  SET UPD_DATE = now() /* 수정일 */
+			, CERT_KEY_DTIME = now() /* 인증키생성일시 */
+		<if test="snsConType != null">
+			, SNS_CON_TYPE = #{snsConType} /* SNS연동종류 */
+		</if>
+		<if test="snsConYn != null">
+			, SNS_CON_YN = #{snsConYn} /* SNS연동여부 */
+		</if>
+		<if test="certKeyVal != null">
+			, CERT_KEY_VAL = #{certKeyVal} /* 인증키값 */
+		</if>
+		<if test="rcertKeyVal != null">
+			, RCERT_KEY_VAL = #{rcertKeyVal} /* 리프래쉬인증키값 */
+		</if>
+		<if test="rcertKeyDtime != null">
+			, RCERT_KEY_DTIME = #{rcertKeyDtime} /* 리프래쉬인증키값생성일 */
+		</if>
+		<if test="certType != null">
+			, CERT_TYPE = #{certType} /* 토큰타입 */
+		</if>
+		<if test="expiresDtime != null">
+			, EXPIRES_DTIME = #{expiresDtime} /* 토큰만료일 */
+		</if>
+		WHERE 1=1
+		AND SNS_SEQ_ID = #{snsSeqId} /* 아이디 */
+	</update>
+	
+	<insert id="insertBlackListOne">
+		/* userMapper.insertBlackList - 블랙리스트 등록. */
+		INSERT INTO BLACK_LIST
+		( USER_IP
+		, USER_ID
+		, USE_YN
+		, REG_DATE
+		, REG_USER_ID
+		, UPD_DATE
+		, UPD_USER_ID
+		) VALUES
+		( #{userIp}
+		, #{userId}
+		, 'Y'
+		, NOW()
+		, #{regUserId}
+		, NOW()
+		, #{updUserId}
+		)
+	</insert>
+	
+	<delete id="deleteBlackListOne">
+		/* userMapper.deleteBlackList - 블랙리스트 삭제 단건. */
+		DELETE FROM BLACK_LIST
+		 WHERE USER_IP = #{userIp}
+	</delete>
+	
+	<select id="selectBlackList" resultType="userDto">
+		/* userMapper.selectBlackList - 블랙리스트  */
+		SELECT USER_IP			AS userIp
+			 , USER_ID			AS userId
+			 , USE_YN			AS useYn
+			 , REG_DATE			AS regDate
+			 , REG_USER_ID		AS regUserId
+			 , UPD_DATE			AS updDate
+			 , UPD_USER_ID		AS updUserId
+		  FROM BLACK_LIST
+		 WHERE USE_YN = 'Y'
+		 ORDER BY UPD_DATE DESC
+	</select>
+</mapper>

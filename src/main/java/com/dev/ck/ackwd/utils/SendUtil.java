@@ -146,6 +146,7 @@ public class SendUtil {
 				}
 			}
 			byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+			SendUtil.disableSslVerification(); //인증서 에러 무시
 			httpsConn = (HttpsURLConnection) url.openConnection();
 //			httpsConn.setDoInput(true);
 //			httpsConn.setUseCaches(false);
@@ -155,6 +156,11 @@ public class SendUtil {
 //			httpsConn.setRequestProperty("Content-Type", "application/json");
 			httpsConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			httpsConn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+			
+			if(param.containsKey("Authorization")) {
+				httpsConn.setRequestProperty("Authorization", param.get("Authorization"));
+			}
+			
 			httpsConn.setDoOutput(true);
 			httpsConn.getOutputStream().write(postDataBytes);
 
