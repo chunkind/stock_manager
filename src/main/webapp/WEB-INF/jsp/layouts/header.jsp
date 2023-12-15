@@ -127,7 +127,7 @@
 				</c:if>
 				<c:if test="${not empty sessionScope.mvo}">
 					<li class="nav-item"><a class="nav-link" href="/user/logout.do">로그아웃</a></li>
-					<li class="nav-item"><a class="nav-link" href="/user/logout.do">정보수정</a></li>
+					<li class="nav-item"><a class="nav-link" href="/user/editUserInfo.do">정보수정</a></li>
 				</c:if>
 				</ul>
 			</div>

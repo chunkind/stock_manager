@@ -49,6 +49,16 @@ public class PageController {
 	}
 	
 	/**
+	 * @Auth: K. J. S.
+	 * @Date: 2023. 12. 15.
+	 * 회원 정보 수정
+	 */
+	@RequestMapping(value="/user/editUserInfo.do")
+	public String editUserInfo() {
+		return "ackwd/page/join";
+	}
+	
+	/**
 	 * @User : K. J. S.
 	 * @date : 2018. 1. 18.
 	 * 로그아웃.

@@ -73,5 +73,7 @@
 	</form>
 </div>
 <script>
-
+post('', {}, (data)=>{
+	console.log(data);
+});
 </script>

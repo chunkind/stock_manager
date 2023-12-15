@@ -129,4 +129,34 @@ public class UserController {
 		return data;
 	}
 	
+	/**
+	 * @Auth: K. J. S.
+	 * @Date: 2023. 12. 15.
+	 * 회원 정보 가져오기.
+	 */
+	@RequestMapping(value = "/user/userInfo.do")
+	public JSONObject userInfo(@RequestBody Map<String, Object> map, HttpSession session, HttpServletRequest request){
+		JSONObject data = new JSONObject();
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			UserDto pvo = mapper.convertValue(map, UserDto.class);
+			
+			UserDto mvo = userService.selectUserOne(pvo);
+			String returnPage = "";
+			
+			if(null == mvo) {
+				session.setAttribute("message", "로그인 실패!");
+				returnPage = "/fo/user/showLogin.do";
+			}
+			
+			data.put(Config.RESULT_CD, 'S');
+			data.put("returnPage", returnPage);
+			data.put("message", "SUCCESS");
+		}catch(Exception e) {
+			data.put(Config.RESULT_CD, 'F');
+			data.put("message", "FAIL");
+			e.printStackTrace();
+		}
+		return data;
+	}
 }
