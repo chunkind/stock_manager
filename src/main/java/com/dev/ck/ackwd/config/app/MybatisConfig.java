@@ -31,6 +31,7 @@ import com.dev.ck.ackwd.config.persistent.mybatis.RefreshableSqlSessionFactoryBe
 import com.dev.ck.ackwd.config.persistent.mybatis.YesNoBooleanTypeHandler;
 import com.dev.ck.ackwd.config.persistent.mybatis.audit.AuditableInterceptor;
 import com.dev.ck.ackwd.user.UserDto;
+import com.dev.ck.stmg.api.SmApiDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,7 +64,7 @@ public class MybatisConfig {
 		
 		factory.setMapperLocations(mapperLocations);
 		factory.setTypeAliases(new Class<?>[] {
-			CommonDto.class, UserDto.class
+			CommonDto.class, UserDto.class, SmApiDto.class
 		});
 		factory.setPlugins(interceptors());
 		factory.setTypedHandlerMap(typeHandlers());
