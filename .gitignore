@@ -31,3 +31,4 @@ META-INF/
 build
 
 config.properties
+src/main/resources/config.properties_real

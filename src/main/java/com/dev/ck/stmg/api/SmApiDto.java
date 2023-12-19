@@ -15,5 +15,5 @@ public class SmApiDto {
 	private String apiNonce;
 	private String apiSign;
 	
-	
+	private String currency;
 }
