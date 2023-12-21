@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -199,7 +200,12 @@ public class Api_Client {
 			result = new ObjectMapper().readValue(rgResultDecode, HashMap.class);
 	
 			System.out.println("==== 결과 출력 ====");
-			System.out.println(result.get("status"));
+			System.out.println("status:"+result.get("status"));
+			String msg = result.get("message");
+			if(null != msg) {
+				msg = URLDecoder.decode(msg);
+				System.out.println("message:" + msg);
+			}
 			} catch (IOException e) {
 			e.printStackTrace();
 			}

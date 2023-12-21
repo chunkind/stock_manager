@@ -36,7 +36,7 @@ public class SendUtil {
 	private static final int SOCKET_TIMEOUT = 10 * 1000;
 	private static final int CONNECTION_TIMEOUT = 5 * 60 * 1000;
 	
-	public static String sendHttpsGet(String sendURL, Map<String, String> param, String token){
+	public static String sendHttpsGet(String sendURL, Map<String, String> header, Map<String, String> body){
 		InputStream in = null;
 		BufferedReader reader = null;
 		HttpsURLConnection httpsConn = null;
@@ -44,12 +44,12 @@ public class SendUtil {
 		try {
 			URL url = new URL(sendURL);
 			//파라미터 셋팅
-			Iterator<String> iterKeys = param.keySet().iterator();
+			Iterator<String> iterKeys = body.keySet().iterator();
 			StringBuilder postData = new StringBuilder();
 			while(iterKeys.hasNext()){
 				String key = iterKeys.next();
-				if(null != param.get(key) && !"".equals(param.get(key))){
-					String value = param.get(key).toString().trim();
+				if(null != body.get(key) && !"".equals(body.get(key))){
+					String value = body.get(key).toString().trim();
 					postData.append("&");
 					postData.append(URLEncoder.encode(key, "UTF-8"));
 					postData.append('=');
@@ -66,12 +66,24 @@ public class SendUtil {
 			httpsConn.setReadTimeout(SOCKET_TIMEOUT);
 			httpsConn.setConnectTimeout(CONNECTION_TIMEOUT);
 			httpsConn.setRequestMethod("GET");
-//			httpsConn.setRequestProperty("Content-Type", "application/json");
+			httpsConn.setRequestProperty("Content-Type", "application/json");
 //			httpsConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			httpsConn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
 			httpsConn.setRequestProperty("Accept", "*/*");
 			httpsConn.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
-			httpsConn.setRequestProperty("Authorization", token);
+//			httpsConn.setRequestProperty("charset", "utf-8");
+//			httpsConn.setRequestProperty("Authorization", token);
+			
+			//해더설정
+			Iterator<String> headerKeys = header.keySet().iterator();
+			while(headerKeys.hasNext()){
+				String key = headerKeys.next();
+				if(null != key && !"".equals(key)){
+					String value = header.get(key).toString().trim();
+					httpsConn.setRequestProperty(key, value);
+				}
+			}
+			
 			httpsConn.setDoOutput(true);
 //			httpsConn.getOutputStream().write(postDataBytes);
 
@@ -98,7 +110,7 @@ public class SendUtil {
 				sb.append(line);
 			}
 			System.out.println("=Send Start=================================================================");
-			System.out.println("params:"+postData.toString());
+			System.out.println("bodys:"+postData.toString());
 			System.out.println("returns:"+sb.toString());
 			System.out.println("=Send End =================================================================");
 			reader.close();
@@ -123,7 +135,7 @@ public class SendUtil {
 		return sb.toString();
 	}
 	
-	public static String sendHttpsPost(String sendURL, Map<String, String> param){
+	public static String sendHttpsPost(String sendURL, Map<String, String> header, Map<String, String> body){
 		InputStream in = null;
 		BufferedReader reader = null;
 		HttpsURLConnection httpsConn = null;
@@ -131,12 +143,12 @@ public class SendUtil {
 		try {
 			URL url = new URL(sendURL);
 			//파라미터 셋팅
-			Iterator<String> iterKeys = param.keySet().iterator();
+			Iterator<String> iterKeys = body.keySet().iterator();
 			StringBuilder postData = new StringBuilder();
 			while(iterKeys.hasNext()){
 				String key = iterKeys.next();
-				if(null != param.get(key) && !"".equals(param.get(key))){
-					String value = param.get(key).toString().trim();
+				if(null != body.get(key) && !"".equals(body.get(key))){
+					String value = body.get(key).toString().trim();
 					postData.append("&");
 					postData.append(URLEncoder.encode(key, "UTF-8"));
 					postData.append('=');
@@ -157,8 +169,17 @@ public class SendUtil {
 			httpsConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			httpsConn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
 			
-			if(param.containsKey("Authorization")) {
-				httpsConn.setRequestProperty("Authorization", param.get("Authorization"));
+//			if(body.containsKey("Authorization")) {
+//				httpsConn.setRequestProperty("Authorization", body.get("Authorization"));
+//			}
+			//해더설정
+			Iterator<String> headerKeys = header.keySet().iterator();
+			while(headerKeys.hasNext()){
+				String key = headerKeys.next();
+				if(null != key && !"".equals(key)){
+					String value = header.get(key).toString().trim();
+					httpsConn.setRequestProperty(key, value);
+				}
 			}
 			
 			httpsConn.setDoOutput(true);

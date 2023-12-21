@@ -1,5 +1,8 @@
 package com.dev.ck.api.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,6 +14,11 @@ public class SmApiServiceImplTest extends TestApp{
 	
 	@Test
 	public void 계좌조회() {
+		Map<String, Object> header = new HashMap<>();
+		Map<String, Object> params = new HashMap<>();
+		String url = "https://api.bithumb.com";
 		
+		Map<String, Object> resultMap
+			= apiService.httpsPost(url, header, params);
 	}
 }
