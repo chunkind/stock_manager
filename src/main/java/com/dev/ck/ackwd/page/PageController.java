@@ -79,4 +79,14 @@ public class PageController {
 		req.setAttribute("code", code);
 		return "ackwd/page/kakaoLoginResult.view";
 	}
+	
+	/**
+	 * @Auth: K. J. S.
+	 * @Date: 2023. 12. 19.
+	 * Api 테스트 페이지
+	 */
+	@RequestMapping(value="/common/apiSend.do")
+	public String apiTest() {
+		return "ackwd/common/apiSend";
+	}
 }

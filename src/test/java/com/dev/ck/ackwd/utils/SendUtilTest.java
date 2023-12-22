@@ -27,11 +27,27 @@ public class SendUtilTest extends TestApp{
 		
 		String url = serverUrl + "/v1/accounts";
 		String method = "GET";
-		Map<String, String> param = new HashMap<String, String>();
-		String authenticationToken = "Bearer " + jwtToken;
-		System.out.println(authenticationToken);
+		Map<String, String> header = new HashMap<String, String>();
+		Map<String, String> body = new HashMap<String, String>();
 		
-		String result = SendUtil.sendHttpsGet(url, param, authenticationToken);
+		String authenticationToken = "Bearer " + jwtToken;
+		header.put("Authorization", authenticationToken);
+		
+		String result = SendUtil.sendHttpsGet(url, header, body);
+		System.out.println("result :: " + result);
+	}
+	
+	@Test
+	public void 그냥갯전송테스트() {
+		String url = "http://dev-sel.skstoa.com/partner/code/commcd-list";
+		Map<String, String> header = new HashMap<String, String>();
+		Map<String, String> body = new HashMap<String, String>();
+		body.put("linkCode", "HIMART");
+		body.put("entpCode", "101291");
+		body.put("entpId", "E101291");
+		body.put("entpPass", "Skstoa1234");
+		
+		String result = SendUtil.sendHttpsGet(url, header, body);
 		System.out.println("result :: " + result);
 	}
 }
