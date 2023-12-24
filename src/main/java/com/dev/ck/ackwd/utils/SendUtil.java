@@ -28,8 +28,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.dev.ck.Config;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,12 +36,20 @@ public class SendUtil {
 	private static final int CONNECTION_TIMEOUT = 5 * 60 * 1000;
 	
 	// GET 요청
+	public static String sendHttpGet(String sendURL, String... params) {
+		Map<String, String> body = StringToMap(params);
+		return sendHttpGet(sendURL, body);
+	}
 	public static String sendHttpGet(String sendURL, Map<String, String> body) {
 		Map<String, String> header = new HashMap<String, String>();
 		return sendHttpGet(sendURL, header, body);
 	}
 	public static String sendHttpGet(String sendURL, Map<String, String> header, Map<String, String> body) {
 		return sendHttp(sendURL, "GET", header, body);
+	}
+	public static String sendHttpsGet(String sendURL, String... params) {
+		Map<String, String> body = StringToMap(params);
+		return sendHttpsGet(sendURL, body);
 	}
 	public static String sendHttpsGet(String sendURL, Map<String, String> body){
 		Map<String, String> header = new HashMap<String, String>();
@@ -54,12 +60,20 @@ public class SendUtil {
 	}
 	
 	// POST 요청
+	public static String sendHttpPost(String sendURL, String... params) {
+		Map<String, String> body = StringToMap(params);
+		return sendHttpPost(sendURL, body);
+	}
 	public static String sendHttpPost(String sendURL, Map<String, String> body) {
 		Map<String, String> header = new HashMap<String, String>();
 		return sendHttpPost(sendURL, header, body);
 	}
 	public static String sendHttpPost(String sendURL, Map<String, String> header, Map<String, String> body) {
 		return sendHttp(sendURL, "POST", header, body);
+	}
+	public static String sendHttpsPost(String sendURL, String... params) {
+		Map<String, String> body = StringToMap(params);
+		return sendHttpsPost(sendURL, body);
 	}
 	public static String sendHttpsPost(String sendURL, Map<String, String> body) {
 		Map<String, String> header = new HashMap<String, String>();
@@ -240,7 +254,6 @@ public class SendUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 	
 	public static String get(String apiUrl, Map<String, String> requestHeaders){
@@ -427,5 +440,25 @@ public class SendUtil {
 		} catch (NoSuchAlgorithmException | KeyManagementException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * @Auth: K. J. S.
+	 * @Date: 2023. 12. 24.
+	 * String을 Map으로 변환
+	 */
+	public static Map<String, String> StringToMap(String... params){
+		Map<String, String> body = new HashMap<String, String>();
+		String key = "";
+		String value = "";
+		for(int i=0; i<params.length; i++) {
+			if(i%2 == 0) {
+				key = params[i];
+			}else {
+				value = params[i];
+				body.put(key, value);
+			}
+		}
+		return body;
 	}
 }

@@ -50,13 +50,12 @@ public class SendUtilTest extends TestApp{
 	@Test
 	public void getHttps전송() {
 		String url = "https://www.googleapis.com/youtube/v3/videoCategories";
-		Map<String, String> header = new HashMap<String, String>();
 		Map<String, String> body = new HashMap<String, String>();
 		body.put("key", "AIzaSyDjQFtDtYzJ-pvcfOHKsVQ1HJR3AGhg-_E");
 		body.put("part", "snippet");
 		body.put("regionCode", "KR");
 		
-		String result = SendUtil.sendHttpsGet(url, header, body);
+		String result = SendUtil.sendHttpsGet(url, body);
 		System.out.println("result :: " + result);
 		
 //		SendUtil.checkCharSet(result);
@@ -67,5 +66,16 @@ public class SendUtilTest extends TestApp{
 		String url = "https://www.googleapis.com/youtube/v3/videoCategories";
 		url += "?regionCode=KR&part=snippet&key=AIzaSyDjQFtDtYzJ-pvcfOHKsVQ1HJR3AGhg-_E";
 		SendUtil.transUrl(url);
+	}
+	
+	@Test
+	public void httpSendStrarg() {
+		String url = "https://www.googleapis.com/youtube/v3/videoCategories";
+		SendUtil.sendHttpsGet(
+			url, 
+			"regionCode", "KR", 
+			"part","snippet", 
+			"key", "AIzaSyDjQFtDtYzJ-pvcfOHKsVQ1HJR3AGhg-_E"
+		);
 	}
 }
