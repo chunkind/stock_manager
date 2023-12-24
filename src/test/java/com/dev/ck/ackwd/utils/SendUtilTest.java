@@ -38,16 +38,34 @@ public class SendUtilTest extends TestApp{
 	}
 	
 	@Test
-	public void 그냥갯전송테스트() {
-		String url = "http://dev-sel.skstoa.com/partner/code/commcd-list";
+	public void getHttp전송() {
+		String url = "https://www.googleapis.com/youtube/v3/videoCategories";
+		url += "?regionCode=KR&part=snippet&key=AIzaSyDjQFtDtYzJ-pvcfOHKsVQ1HJR3AGhg-_E";
 		Map<String, String> header = new HashMap<String, String>();
 		Map<String, String> body = new HashMap<String, String>();
-		body.put("linkCode", "HIMART");
-		body.put("entpCode", "101291");
-		body.put("entpId", "E101291");
-		body.put("entpPass", "Skstoa1234");
+		String result = SendUtil.sendHttp(url, "GET", header, body);
+		System.out.println(result);
+	}
+	
+	@Test
+	public void getHttps전송() {
+		String url = "https://www.googleapis.com/youtube/v3/videoCategories";
+		Map<String, String> header = new HashMap<String, String>();
+		Map<String, String> body = new HashMap<String, String>();
+		body.put("key", "AIzaSyDjQFtDtYzJ-pvcfOHKsVQ1HJR3AGhg-_E");
+		body.put("part", "snippet");
+		body.put("regionCode", "KR");
 		
 		String result = SendUtil.sendHttpsGet(url, header, body);
 		System.out.println("result :: " + result);
+		
+//		SendUtil.checkCharSet(result);
+	}
+	
+	@Test
+	public void transUrl테스트() {
+		String url = "https://www.googleapis.com/youtube/v3/videoCategories";
+		url += "?regionCode=KR&part=snippet&key=AIzaSyDjQFtDtYzJ-pvcfOHKsVQ1HJR3AGhg-_E";
+		SendUtil.transUrl(url);
 	}
 }
