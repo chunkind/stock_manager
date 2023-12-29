@@ -15,3 +15,6 @@ https://getbootstrap.com/docs/5.3/components/navbar/
 
 # API 연동테스트
 /stock_manager/src/test/java/com/dev/ck/ackwd/utils/SendUtilTest.java
+
+# 바이낸스 api doc
+https://binance-docs.github.io/apidocs/pm/en/#change-log
