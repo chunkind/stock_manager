@@ -461,4 +461,15 @@ public class SendUtil {
 		}
 		return body;
 	}
+	
+	public static boolean isHttp(String url) {
+		String protocol = "";
+		String[] splitUrl = url.split("://");
+		if(null != splitUrl && splitUrl.length>0)
+			protocol = splitUrl[0];
+		if(protocol.equals("http"))
+			return true;
+		else
+			return false;
+	}
 }

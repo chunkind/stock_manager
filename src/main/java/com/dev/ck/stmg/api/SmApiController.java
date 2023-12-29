@@ -51,12 +51,23 @@ public class SmApiController {
 			Map<String, String> body = (Map<String, String>) params.get("body");
 			params.remove("url");
 			params.remove("method");
-			if("GET".equals(method.toUpperCase())) {
-				strResult = SendUtil.sendHttpsGet(url, header, body);
+			
+			if(SendUtil.isHttp(url)) { //http
+				if("GET".equals(method.toUpperCase())) {
+					strResult = SendUtil.sendHttpGet(url, header, body);
+				}
+				else if("POST".equals(method.toUpperCase())) {
+					strResult = SendUtil.sendHttpPost(url, header, body);
+				}
+			} else { //https
+				if("GET".equals(method.toUpperCase())) {
+					strResult = SendUtil.sendHttpsGet(url, header, body);
+				}
+				else if("POST".equals(method.toUpperCase())) {
+					strResult = SendUtil.sendHttpsPost(url, header, body);
+				}
 			}
-			else if("POST".equals(method.toUpperCase())) {
-				strResult = SendUtil.sendHttpsPost(url, header, body);
-			}
+			
 			result = getJson(strResult);
 			result.put("message", "Success");
 		}catch(Exception e) {
